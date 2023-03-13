@@ -9,7 +9,12 @@ export default {
   },
   data() {
     return {
-      shufflerCurrent: 'window',
+      shufflerCurrent: {
+        title: 'NYC Heavy Snowfall In A Cozy Apartment',
+        name: 'window',
+        video:
+          'https://www.youtube.com/embed/ZYaF0zLfijg?autoplay=1&amp;mute=1&amp;controls=0&amp;start=4&amp;origin=https%3A%2F%2Flifeat.io&amp;playsinline=1&amp;showinfo=0&amp;rel=0&amp;iv_load_policy=3&amp;modestbranding=1&amp;enablejsapi=1&amp;widgetid=1'
+      },
       shufflerCategories: [
         {
           name: 'mountain',
@@ -32,8 +37,11 @@ export default {
           icon: './images/hot-beverage.png'
         },
         {
+          title: 'NYC Heavy Snowfall In A Cozy Apartment',
           name: 'window',
-          icon: './images/window.png'
+          icon: './images/window.png',
+          video:
+            'https://www.youtube.com/embed/ZYaF0zLfijg?autoplay=1&amp;mute=1&amp;controls=0&amp;start=4&amp;origin=https%3A%2F%2Flifeat.io&amp;playsinline=1&amp;showinfo=0&amp;rel=0&amp;iv_load_policy=3&amp;modestbranding=1&amp;enablejsapi=1&amp;widgetid=1'
         },
         {
           name: 'artist-palette',
@@ -52,6 +60,6 @@ export default {
 <template>
   <div class="screen">
     <Sidebar :shufflerCategories="shufflerCategories" :shufflerCurrent="shufflerCurrent" />
-    <SpacePlayer />
+    <SpacePlayer :shufflerCurrent="shufflerCurrent" />
   </div>
 </template>

@@ -4,15 +4,23 @@
       <iframe
         frameborder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        title="NYC Heavy Snowfall In A Cozy Apartment | Non-Christmas Version | 4K |  60FPS"
+        :title="shufflerCurrent.title"
         width="100%"
         height="100%"
-        src="https://www.youtube.com/embed/ZYaF0zLfijg?autoplay=1&amp;mute=1&amp;controls=0&amp;start=4&amp;origin=https%3A%2F%2Flifeat.io&amp;playsinline=1&amp;showinfo=0&amp;rel=0&amp;iv_load_policy=3&amp;modestbranding=1&amp;enablejsapi=1&amp;widgetid=1"
+        :src="shufflerCurrent.video"
         id="widget2"
       ></iframe>
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  props: {
+    shufflerCurrent: Object
+  }
+}
+</script>
 
 <style scoped>
 .space-player {

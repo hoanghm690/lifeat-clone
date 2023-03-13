@@ -20,7 +20,7 @@
               class="shuffler-category"
               v-for="category in shufflerCategories"
               :key="category.name"
-              :class="{ active: shufflerCurrent === category.name }"
+              :class="{ active: shufflerCurrent.name === category.name }"
             >
               <img :src="category.icon" :alt="category.name" />
             </div>
@@ -30,7 +30,7 @@
               <div class="space-indicator">
                 <div class="space-indicator-content">
                   <div class="space-name-text">
-                    <span>NYC Heavy Snowfall In A Cozy Apartment</span>
+                    <span>{{ shufflerCurrent.title }}</span>
                   </div>
                   <div class="share-space-link">
                     <span>Share Space →</span>
@@ -76,17 +76,17 @@
 <script>
 import IconChevronLeft from '../components/icons/IconChevronLeft.vue'
 import IconChevronRight from '../components/icons/IconChevronRight.vue'
+import IconLogo from '../components/icons/IconLogo.vue'
 import IconSavedSpace from '../components/icons/IconSavedSpace.vue'
 import IconSavedSpaceMenu from '../components/icons/IconSavedSpaceMenu.vue'
-import IconVolumeOn from '../components/icons/IconVolumeOn.vue'
-import IconVolumeOff from '../components/icons/IconVolumeOff.vue'
-import IconLogo from '../components/icons/IconLogo.vue'
 import IconVerified from '../components/icons/IconVerified.vue'
+import IconVolumeOff from '../components/icons/IconVolumeOff.vue'
+// import IconVolumeOn from '../components/icons/IconVolumeOn.vue'
 import { dateCurrentWithoutSecond } from '../utils/date'
 
 export default {
   props: {
-    shufflerCurrent: String,
+    shufflerCurrent: Object,
     shufflerCategories: Array
   },
   components: {
@@ -94,7 +94,7 @@ export default {
     IconChevronRight,
     IconSavedSpace,
     IconSavedSpaceMenu,
-    IconVolumeOn,
+    // IconVolumeOn,
     IconVolumeOff,
     IconLogo,
     IconVerified
