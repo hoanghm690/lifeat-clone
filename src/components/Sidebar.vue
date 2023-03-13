@@ -20,6 +20,7 @@
               class="shuffler-category"
               v-for="category in shufflerCategories"
               :key="category.name"
+              :class="{ active: shufflerCurrent === category.name }"
             >
               <img :src="category.icon" :alt="category.name" />
             </div>
@@ -84,6 +85,10 @@ import IconVerified from '../components/icons/IconVerified.vue'
 import { dateCurrentWithoutSecond } from '../utils/date'
 
 export default {
+  props: {
+    shufflerCurrent: String,
+    shufflerCategories: Array
+  },
   components: {
     IconChevronLeft,
     IconChevronRight,
@@ -96,41 +101,7 @@ export default {
   },
   data() {
     return {
-      time: dateCurrentWithoutSecond(),
-      shufflerCategories: [
-        {
-          name: 'mountain',
-          icon: './images/mountain.png'
-        },
-        {
-          name: 'beach-with-umbrella',
-          icon: './images/beach-with-umbrella.png'
-        },
-        {
-          name: 'bullet-train',
-          icon: './images/bullet-train.png'
-        },
-        {
-          name: 'cityscape',
-          icon: './images/cityscape.png'
-        },
-        {
-          name: 'hot-beverage',
-          icon: './images/hot-beverage.png'
-        },
-        {
-          name: 'window',
-          icon: './images/window.png'
-        },
-        {
-          name: 'artist-palette',
-          icon: './images/artist-palette.png'
-        },
-        {
-          name: 'crystal-ball',
-          icon: './images/crystal-ball.png'
-        }
-      ]
+      time: dateCurrentWithoutSecond()
     }
   },
   mounted() {
@@ -148,6 +119,7 @@ export default {
   margin: 8px;
   height: calc(100% - 8px * 2);
   width: auto;
+  z-index: 999;
 }
 
 .sidebar-inner {
@@ -229,6 +201,7 @@ export default {
   cursor: pointer;
 }
 
+.shuffler-category.active,
 .shuffler-category:hover {
   background-color: rgba(241, 241, 241, 0.95);
 }
