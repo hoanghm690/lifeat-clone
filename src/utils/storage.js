@@ -1,4 +1,4 @@
-export const storage = {
+const storage = {
   setData({ key, value }) {
     return localStorage.setItem(key, value)
   },
@@ -7,3 +7,5 @@ export const storage = {
     return localStorage.getItem(key)
   }
 }
+
+export default storage

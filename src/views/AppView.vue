@@ -3,6 +3,7 @@ import Sidebar from '../components/Sidebar.vue'
 import SpacePlayer from '../components/SpacePlayer.vue'
 import { getVideoByCategory } from '../services/app'
 import { randomElement } from '../utils/random'
+import storage from '../utils/storage'
 
 export default {
   components: {
@@ -33,7 +34,14 @@ export default {
 
       if (videoId && categoryId) {
         const space = getVideoByCategory({ videoId, categoryId })
-        this.space = space
+
+        if (space) {
+          this.space = space
+        } else {
+          this.$router.push({ query: { space: spaceRandom } })
+          const spaceAgain = getVideoByCategory({ videoId: spaceRandom, categoryId })
+          this.space = spaceAgain
+        }
       }
     },
 
@@ -45,6 +53,8 @@ export default {
       this.space = space
       this.categoryIdDefault = categoryId
       this.$router.replace({ query: { space: space.id } })
+
+      storage.setData({ key: 'category', value: categoryId })
     }
   }
 }
