@@ -2,13 +2,13 @@
   <div class="space-player" v-if="space">
     <div class="space-view">
       <iframe
+        ref="video"
         frameborder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
         :title="space.title"
         width="100%"
         height="100%"
         :src="space.url"
-        id="widget2"
       ></iframe>
     </div>
   </div>
@@ -19,7 +19,27 @@
 <script>
 export default {
   props: {
-    space: Object
+    space: Object,
+    ambianceVolume: Number
+  },
+
+  watch: {
+    ambianceVolume: {
+      immediate: true,
+      handler(value) {
+        const video = this.$refs.video
+
+        if (value === 0 && this.space && this.space.url) {
+          const newUrl = this.space.url.replace('mute=0', 'mute=1')
+          video.src = newUrl
+        }
+
+        if (value > 0 && this.space && this.space.url) {
+          const newUrl = this.space.url.replace('mute=1', 'mute=0')
+          video.src = newUrl
+        }
+      }
+    }
   }
 }
 </script>

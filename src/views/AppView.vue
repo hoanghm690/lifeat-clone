@@ -1,9 +1,7 @@
 <script>
 import Sidebar from '../components/Sidebar.vue'
 import SpacePlayer from '../components/SpacePlayer.vue'
-import { getVideoByCategory } from '../services/app'
-import { randomElement } from '../utils/random'
-import storage from '../utils/storage'
+import { getVideoById, getVideosByCategory, randomSpace } from '../services/app'
 
 export default {
   components: {
@@ -12,49 +10,51 @@ export default {
   },
   data() {
     return {
-      categoryIdDefault: 1,
-      space: null
+      space: null,
+      ambianceVolume: 0,
+      isMuted: true
     }
   },
   mounted() {
-    this.fetchSpace({ categoryId: this.categoryIdDefault })
+    const query = this.$route.query
+
+    if (!query || Object.keys(query).length === 0) {
+      const spaceRandom = randomSpace()
+
+      this.$router.push({ query: { space: spaceRandom.id } })
+      this.space = spaceRandom
+
+      return
+    }
+
+    if (query && query.space) {
+      const video = getVideoById(query.space)
+
+      this.space = video
+    }
   },
   methods: {
-    fetchSpace({ categoryId }) {
-      let videoId
-      const query = this.$route.query
-      const spaceRandom = randomElement({ categoryId: this.categoryIdDefault }).id
-
-      if (!query || (query && !query.space)) {
-        this.$router.push({ query: { space: spaceRandom } })
-        videoId = spaceRandom
-      } else if (query && query.space) {
-        videoId = query.space
-      }
-
-      if (videoId && categoryId) {
-        const space = getVideoByCategory({ videoId, categoryId })
-
-        if (space) {
-          this.space = space
-        } else {
-          this.$router.push({ query: { space: spaceRandom } })
-          const spaceAgain = getVideoByCategory({ videoId: spaceRandom, categoryId })
-          this.space = spaceAgain
-        }
-      }
-    },
-
     onCategoryChange(category) {
       const categoryId = category.id
-      const spaceRandom = randomElement({ categoryId }).id
-      const space = getVideoByCategory({ videoId: spaceRandom, categoryId })
+      const videosByCategory = getVideosByCategory(categoryId)
 
-      this.space = space
-      this.categoryIdDefault = categoryId
-      this.$router.replace({ query: { space: space.id } })
+      if (videosByCategory.length) {
+        const spaceRandom = randomSpace(videosByCategory)
 
-      storage.setData({ key: 'category', value: categoryId })
+        this.space = spaceRandom
+        this.$router.replace({ query: { space: spaceRandom.id } })
+      } else {
+        alert('Oops. No spaces available. Please try again later.')
+      }
+    },
+    onToggleVolume() {
+      this.isMuted = !this.isMuted
+
+      if (this.ambianceVolume === 0) {
+        this.ambianceVolume = 1
+      } else {
+        this.ambianceVolume = 0
+      }
     }
   }
 }
@@ -62,7 +62,13 @@ export default {
 
 <template>
   <div class="screen">
-    <Sidebar :space="space" @onCategoryChange="onCategoryChange" />
-    <SpacePlayer :space="space" />
+    <Sidebar
+      :space="space"
+      @onCategoryChange="onCategoryChange"
+      @onToggleVolume="onToggleVolume"
+      :ambianceVolume="ambianceVolume"
+      :isMuted="isMuted"
+    />
+    <SpacePlayer :space="space" :ambianceVolume="ambianceVolume" />
   </div>
 </template>

@@ -48,10 +48,11 @@
                 </div>
               </div>
               <div class="volume-slider">
-                <div class="volume-slider-toggle">
-                  <IconVolumeOff />
+                <div class="volume-slider-toggle" @click="onToggleVolume">
+                  <IconVolumeOff v-if="isMuted" />
+                  <IconVolumeOn v-else />
                 </div>
-                <input type="range" min="0" max="1" step="any" value="0" />
+                <input type="range" min="0" max="1" step="any" :value="ambianceVolume" />
               </div>
             </div>
             <div class="space-creator-info">
@@ -77,6 +78,7 @@
 </template>
 
 <script>
+import { categories } from '../api/mock-data.js'
 import IconChevronLeft from '../components/icons/IconChevronLeft.vue'
 import IconChevronRight from '../components/icons/IconChevronRight.vue'
 import IconLogo from '../components/icons/IconLogo.vue'
@@ -84,20 +86,21 @@ import IconSavedSpace from '../components/icons/IconSavedSpace.vue'
 import IconSavedSpaceMenu from '../components/icons/IconSavedSpaceMenu.vue'
 import IconVerified from '../components/icons/IconVerified.vue'
 import IconVolumeOff from '../components/icons/IconVolumeOff.vue'
-// import IconVolumeOn from '../components/icons/IconVolumeOn.vue'
+import IconVolumeOn from '../components/icons/IconVolumeOn.vue'
 import { dateCurrentWithoutSecond } from '../utils/date'
-import { categories } from '../api/mock-data.js'
 
 export default {
   props: {
-    space: Object
+    space: Object,
+    ambianceVolume: Number,
+    isMuted: Boolean
   },
   components: {
     IconChevronLeft,
     IconChevronRight,
     IconSavedSpace,
     IconSavedSpaceMenu,
-    // IconVolumeOn,
+    IconVolumeOn,
     IconVolumeOff,
     IconLogo,
     IconVerified
@@ -116,6 +119,10 @@ export default {
   methods: {
     onClick(category) {
       this.$emit('onCategoryChange', category)
+    },
+
+    onToggleVolume() {
+      this.$emit('onToggleVolume')
     }
   }
 }
@@ -271,6 +278,7 @@ export default {
 }
 
 .volume-slider-toggle .volume-icon {
+  cursor: pointer;
   transform: scale(1.3);
 }
 
