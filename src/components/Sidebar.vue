@@ -1,5 +1,5 @@
 <template>
-  <div class="sidebar-wrapper">
+  <div class="sidebar-wrapper" v-if="space">
     <div class="sidebar-inner">
       <div class="sidebar-header">
         <div class="explore-page-back-btn">Explore 🔎</div>
@@ -21,6 +21,7 @@
               v-for="category in categories"
               :key="category.id"
               :class="{ active: space.categoryId === category.id }"
+              @click="onClick(category)"
             >
               <img :src="category.icon" :alt="category.name" />
             </div>
@@ -71,6 +72,8 @@
       <!-- <div class="sidebar-footer">3</div> -->
     </div>
   </div>
+
+  <div v-else>Sidebar Loading...</div>
 </template>
 
 <script>
@@ -109,6 +112,11 @@ export default {
     setInterval(() => {
       this.time = dateCurrentWithoutSecond()
     }, 1000)
+  },
+  methods: {
+    onClick(category) {
+      this.$emit('onCategoryChange', category)
+    }
   }
 }
 </script>

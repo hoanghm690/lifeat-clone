@@ -1,5 +1,5 @@
 <template>
-  <div class="space-player">
+  <div class="space-player" v-if="space">
     <div class="space-view">
       <iframe
         frameborder="0"
@@ -12,6 +12,8 @@
       ></iframe>
     </div>
   </div>
+
+  <div v-else>Space Player Loading...</div>
 </template>
 
 <script>
