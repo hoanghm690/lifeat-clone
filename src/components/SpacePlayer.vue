@@ -4,10 +4,10 @@
       <iframe
         frameborder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        :title="shufflerCurrent.title"
+        :title="space.title"
         width="100%"
         height="100%"
-        :src="shufflerCurrent.video"
+        :src="space.url"
         id="widget2"
       ></iframe>
     </div>
@@ -17,7 +17,7 @@
 <script>
 export default {
   props: {
-    shufflerCurrent: Object
+    space: Object
   }
 }
 </script>

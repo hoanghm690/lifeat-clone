@@ -18,9 +18,9 @@
           <div class="shuffler-categories">
             <div
               class="shuffler-category"
-              v-for="category in shufflerCategories"
-              :key="category.name"
-              :class="{ active: shufflerCurrent.name === category.name }"
+              v-for="category in categories"
+              :key="category.id"
+              :class="{ active: space.categoryId === category.id }"
             >
               <img :src="category.icon" :alt="category.name" />
             </div>
@@ -30,7 +30,7 @@
               <div class="space-indicator">
                 <div class="space-indicator-content">
                   <div class="space-name-text">
-                    <span>{{ shufflerCurrent.title }}</span>
+                    <span>{{ space.shortTitle }}</span>
                   </div>
                   <div class="share-space-link">
                     <span>Share Space →</span>
@@ -83,11 +83,11 @@ import IconVerified from '../components/icons/IconVerified.vue'
 import IconVolumeOff from '../components/icons/IconVolumeOff.vue'
 // import IconVolumeOn from '../components/icons/IconVolumeOn.vue'
 import { dateCurrentWithoutSecond } from '../utils/date'
+import { categories } from '../api/mock-data.js'
 
 export default {
   props: {
-    shufflerCurrent: Object,
-    shufflerCategories: Array
+    space: Object
   },
   components: {
     IconChevronLeft,
@@ -101,7 +101,8 @@ export default {
   },
   data() {
     return {
-      time: dateCurrentWithoutSecond()
+      time: dateCurrentWithoutSecond(),
+      categories: categories
     }
   },
   mounted() {
