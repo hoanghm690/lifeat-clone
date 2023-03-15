@@ -1,6 +1,6 @@
 <template>
   <div v-if="space">
-    <div class="sidebar-wrapper" :class="{ closed: !toolbar.isOpen }">
+    <div class="sidebar-wrapper" :class="{ closed: !toolbar.isSpacesOpen }">
       <div class="sidebar-left">
         <div class="sidebar-header">
           <div class="explore-page-back-btn">Explore 🔎</div>
@@ -85,11 +85,7 @@
       </div>
 
       <div class="sidebar-right">
-        <div
-          class="toolbar-widget"
-          :class="{ open: toolbar.name === 'Spaces' && toolbar.isOpen }"
-          @click="onToggleSpaces"
-        >
+        <div class="toolbar-widget" :class="{ open: toolbar.isSpacesOpen }" @click="onToggleSpaces">
           <IconPicture />
           <span>Spaces</span>
         </div>
@@ -124,7 +120,11 @@
           <span>Notes</span>
         </div>
 
-        <div class="toolbar-widget">
+        <div
+          class="toolbar-widget"
+          :class="{ open: toolbar.isFortuneOpen }"
+          @click="onToggleFortune"
+        >
           <IconFortune />
           <span>Fortune</span>
         </div>
@@ -160,7 +160,8 @@ export default {
   props: {
     space: Object,
     ambianceVolume: Number,
-    isMuted: Boolean
+    isMuted: Boolean,
+    toolbar: Object
   },
 
   components: {
@@ -185,11 +186,7 @@ export default {
   data() {
     return {
       time: dateCurrentWithoutSecond(),
-      categories: categories,
-      toolbar: {
-        name: 'Spaces',
-        isOpen: true
-      }
+      categories: categories
     }
   },
 
@@ -208,13 +205,17 @@ export default {
       this.$emit('onToggleVolume')
     },
 
+    onToggleSpaces() {
+      this.$emit('onToggleSpaces')
+    },
+
+    onToggleFortune() {
+      this.$emit('onToggleFortune')
+    },
+
     onChangeVolume(event) {
       const ambianceVolume = event.target.value
       this.$emit('onChangeVolume', ambianceVolume)
-    },
-
-    onToggleSpaces() {
-      this.toolbar.isOpen = !this.toolbar.isOpen
     }
   }
 }
@@ -229,7 +230,7 @@ export default {
   margin: 8px;
   height: calc(100% - 8px * 2);
   width: auto;
-  transition: left 0.3s ease-out;
+  transition: all 0.3s ease-out;
   z-index: 999;
 }
 

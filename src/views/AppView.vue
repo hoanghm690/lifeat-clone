@@ -1,18 +1,24 @@
 <script>
 import Sidebar from '../components/Sidebar.vue'
 import SpacePlayer from '../components/SpacePlayer.vue'
+import Fortune from '../components/Fortune.vue'
 import { getVideoById, getVideosByCategory, randomSpace } from '../services/app'
 
 export default {
   components: {
     Sidebar,
-    SpacePlayer
+    SpacePlayer,
+    Fortune
   },
   data() {
     return {
       space: null,
       ambianceVolume: 0,
-      isMuted: true
+      isMuted: true,
+      toolbar: {
+        isSpacesOpen: true,
+        isFortuneOpen: false
+      }
     }
   },
   mounted() {
@@ -47,6 +53,7 @@ export default {
         alert('Oops. No spaces available. Please try again later.')
       }
     },
+
     onToggleVolume() {
       this.isMuted = !this.isMuted
 
@@ -56,6 +63,7 @@ export default {
         this.ambianceVolume = 0
       }
     },
+
     onChangeVolume(value) {
       const volume = Number(value)
 
@@ -66,6 +74,18 @@ export default {
       }
 
       this.ambianceVolume = volume
+    },
+
+    onCloseFortune() {
+      this.toolbar.isFortuneOpen = false
+    },
+
+    onToggleSpaces() {
+      this.toolbar.isSpacesOpen = !this.toolbar.isSpacesOpen
+    },
+
+    onToggleFortune() {
+      this.toolbar.isFortuneOpen = !this.toolbar.isFortuneOpen
     }
   }
 }
@@ -75,13 +95,19 @@ export default {
   <div class="screen">
     <Sidebar
       :space="space"
-      @onCategoryChange="onCategoryChange"
-      @onToggleVolume="onToggleVolume"
       :ambianceVolume="ambianceVolume"
       :isMuted="isMuted"
+      :toolbar="toolbar"
+      @onCategoryChange="onCategoryChange"
+      @onToggleVolume="onToggleVolume"
       @onChangeVolume="onChangeVolume"
+      @onToggleSpaces="onToggleSpaces"
+      @onToggleFortune="onToggleFortune"
     />
+
     <SpacePlayer :space="space" :ambianceVolume="ambianceVolume" />
+
+    <Fortune v-if="toolbar.isFortuneOpen" @onCloseFortune="onCloseFortune" />
   </div>
 </template>
 

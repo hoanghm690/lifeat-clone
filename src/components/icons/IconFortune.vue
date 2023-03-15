@@ -3,9 +3,9 @@
     width="20"
     height="20"
     viewBox="0 0 24 24"
-    fill="none"
+    fill="#fff"
     xmlns="http://www.w3.org/2000/svg"
-    class="toolbar-widget-icon"
+    class="fortune-teller-icon"
   >
     <path
       d="M7.75 10A4.25 4.25 0 0112 5.75a.75.75 0 000-1.5A5.75 5.75 0 006.25 10a.75.75 0 001.5 0z"
