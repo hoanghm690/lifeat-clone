@@ -51,10 +51,21 @@ export default {
       this.isMuted = !this.isMuted
 
       if (this.ambianceVolume === 0) {
-        this.ambianceVolume = 1
+        this.ambianceVolume = 100
       } else {
         this.ambianceVolume = 0
       }
+    },
+    onChangeVolume(value) {
+      const volume = Number(value)
+
+      if (volume === 0) {
+        this.isMuted = true
+      } else {
+        this.isMuted = false
+      }
+
+      this.ambianceVolume = volume
     }
   }
 }
@@ -68,7 +79,14 @@ export default {
       @onToggleVolume="onToggleVolume"
       :ambianceVolume="ambianceVolume"
       :isMuted="isMuted"
+      @onChangeVolume="onChangeVolume"
     />
     <SpacePlayer :space="space" :ambianceVolume="ambianceVolume" />
   </div>
 </template>
+
+<style scoped>
+.screen {
+  overflow: hidden;
+}
+</style>

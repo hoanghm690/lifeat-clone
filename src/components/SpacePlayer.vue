@@ -1,15 +1,14 @@
 <template>
   <div class="space-player" v-if="space">
     <div class="space-view">
-      <iframe
-        ref="video"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        :title="space.title"
-        width="100%"
-        height="100%"
-        :src="space.url"
-      ></iframe>
+      <YouTube
+        ref="youtubeRef"
+        :videoid="space.youtubeId"
+        :loop="play.loop"
+        :autoplay="play.autoplay"
+        :controls="play.controls"
+        style="width: 120vw; height: 120vh"
+      />
     </div>
   </div>
 
@@ -17,26 +16,42 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+import { YoutubeVue3 } from 'youtube-vue3'
+
 export default {
+  components: {
+    YouTube: YoutubeVue3
+  },
   props: {
     space: Object,
     ambianceVolume: Number
   },
+  setup() {
+    const youtubeRef = ref(null)
 
+    return {
+      youtubeRef,
+      play: { autoplay: 1, loop: 1, controls: 0 }
+    }
+  },
   watch: {
-    ambianceVolume: {
-      immediate: true,
+    youtubeRef: {
       handler(value) {
-        const video = this.$refs.video
+        value.player.playVideo()
+        value.player.mute()
+      }
+    },
+    ambianceVolume: {
+      handler(value) {
+        if (this.youtubeRef) {
+          this.youtubeRef.player.setVolume(value)
 
-        if (value === 0 && this.space && this.space.url) {
-          const newUrl = this.space.url.replace('mute=0', 'mute=1')
-          video.src = newUrl
-        }
-
-        if (value > 0 && this.space && this.space.url) {
-          const newUrl = this.space.url.replace('mute=1', 'mute=0')
-          video.src = newUrl
+          if (value === 0) {
+            this.youtubeRef.player.mute()
+          } else {
+            this.youtubeRef.player.unMute()
+          }
         }
       }
     }
@@ -56,7 +71,7 @@ export default {
   height: 100%;
 }
 
-iframe {
+.space-view iframe {
   position: fixed;
   pointer-events: none;
   top: 50%;

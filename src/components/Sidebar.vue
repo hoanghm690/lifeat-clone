@@ -52,7 +52,14 @@
                   <IconVolumeOff v-if="isMuted" />
                   <IconVolumeOn v-else />
                 </div>
-                <input type="range" min="0" max="1" step="any" :value="ambianceVolume" />
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  step="1"
+                  :value="ambianceVolume"
+                  @change="onChangeVolume"
+                />
               </div>
             </div>
             <div class="space-creator-info">
@@ -123,6 +130,11 @@ export default {
 
     onToggleVolume() {
       this.$emit('onToggleVolume')
+    },
+
+    onChangeVolume(event) {
+      const ambianceVolume = event.target.value
+      this.$emit('onChangeVolume', ambianceVolume)
     }
   }
 }
