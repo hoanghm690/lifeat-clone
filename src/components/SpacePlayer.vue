@@ -8,7 +8,7 @@
         :autoplay="play.autoplay"
         :controls="play.controls"
         style="
-          width: 177.78vh;
+          width: 120%;
           height: 120%;
           position: fixed;
           pointer-events: none;
