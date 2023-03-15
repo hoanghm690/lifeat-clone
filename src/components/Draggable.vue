@@ -1,53 +1,69 @@
 <template>
-  <div
-    class="draggable"
-    draggable="true"
-    @dragstart="handleDragStart"
-    @dragover="handleDragOver"
-    @drop="handleDrop"
-    id="draggable"
-  >
+  <div class="draggable" @mousedown="dragMouseDown" ref="draggable">
     <slot></slot>
   </div>
 </template>
 
 <script>
-const width = window.innerWidth
-const height = window.innerHeight
+import { ref } from 'vue'
+
+var pos1 = 0,
+  pos2 = 0,
+  pos3 = 0,
+  pos4 = 0
 
 export default {
-  data() {
+  setup() {
+    const draggable = ref(null)
+
     return {
-      stageSize: {
-        width: width,
-        height: height
-      },
-      isDragging: false
+      draggable
     }
   },
   methods: {
-    handleDragStart(event) {
-      // Set the data that will be transferred during the drag operation
-      event.dataTransfer.setData('text/plain', event.target.id)
+    dragMouseDown(e) {
+      e = e || window.event
+      e.preventDefault()
+      // get the mouse cursor position at startup:
+      pos3 = e.clientX
+      pos4 = e.clientY
+      document.onmouseup = this.closeDragElement
+      // call a function whenever the cursor moves:
+      document.onmousemove = this.elementDrag
     },
 
-    handleDragOver(event) {
-      // Prevent the default behavior, which would not allow the element to be dropped
-      event.preventDefault()
+    elementDrag(e) {
+      e = e || window.event
+      e.preventDefault()
+
+      const elmnt = this.draggable
+
+      var winW = document.documentElement.clientWidth || document.body.clientWidth,
+        winH = document.documentElement.clientHeight || document.body.clientHeight,
+        maxX = winW - elmnt.offsetWidth - 1,
+        maxY = winH - elmnt.offsetHeight - 1
+
+      // calculate the new cursor position:
+      pos1 = pos3 - e.clientX
+      pos2 = pos4 - e.clientY
+      pos3 = e.clientX
+      pos4 = e.clientY
+      // set the element's new position:
+      if (elmnt.offsetTop - pos2 <= maxY && elmnt.offsetTop - pos2 >= 0) {
+        elmnt.style.top = elmnt.offsetTop - pos2 + 'px'
+      }
+      if (elmnt.offsetLeft - pos1 <= maxX && elmnt.offsetLeft - pos1 >= 0) {
+        elmnt.style.left = elmnt.offsetLeft - pos1 + 'px'
+      }
+
+      // this.draggable.style.top = this.draggable.offsetTop - pos2 + 'px'
+      // this.draggable.style.left = this.draggable.offsetLeft - pos1 + 'px'
     },
 
-    handleDrop(event) {
-      // Get the data that was transferred during the drag operation
-      const id = event.dataTransfer.getData('text/plain')
-
-      // Get the position of the drop target
-      const x = event.clientX
-      const y = event.clientY
-
-      // Move the element to the drop target position
-      const element = document.getElementById(id)
-      element.style.left = x + 'px'
-      element.style.top = y + 'px'
+    closeDragElement() {
+      // stop moving when mouse button is released:
+      document.onmouseup = null
+      document.onmousemove = null
     }
   }
 }
@@ -63,10 +79,9 @@ export default {
   width: 360px;
   height: auto;
   min-width: 360px;
-  min-height: 150px;
   max-height: 704px;
   max-width: 1004px;
   background: rgba(0, 0, 0, 0);
-  cursor: pointer;
+  cursor: move;
 }
 </style>

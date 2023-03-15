@@ -1,5 +1,5 @@
 <template>
-  <div v-if="space">
+  <div class="sidebar" v-if="space">
     <div class="sidebar-wrapper" :class="{ closed: !toolbar.isSpacesOpen }">
       <div class="sidebar-left">
         <div class="sidebar-header">
@@ -139,22 +139,22 @@
 import { categories } from '../api/mock-data.js'
 import { dateCurrentWithoutSecond } from '../utils/date'
 
+import IconCalendar from '../components/icons/IconCalendar.vue'
 import IconChevronLeft from '../components/icons/IconChevronLeft.vue'
 import IconChevronRight from '../components/icons/IconChevronRight.vue'
+import IconFortune from '../components/icons/IconFortune.vue'
 import IconLogo from '../components/icons/IconLogo.vue'
+import IconMedia from '../components/icons/IconMedia.vue'
+import IconNotes from '../components/icons/IconNotes.vue'
+import IconPicture from '../components/icons/IconPicture.vue'
 import IconSavedSpace from '../components/icons/IconSavedSpace.vue'
 import IconSavedSpaceMenu from '../components/icons/IconSavedSpaceMenu.vue'
+import IconSounds from '../components/icons/IconSounds.vue'
+import IconTimer from '../components/icons/IconTimer.vue'
+import IconToDo from '../components/icons/IconToDo.vue'
 import IconVerified from '../components/icons/IconVerified.vue'
 import IconVolumeOff from '../components/icons/IconVolumeOff.vue'
 import IconVolumeOn from '../components/icons/IconVolumeOn.vue'
-import IconPicture from '../components/icons/IconPicture.vue'
-import IconCalendar from '../components/icons/IconCalendar.vue'
-import IconTimer from '../components/icons/IconTimer.vue'
-import IconMedia from '../components/icons/IconMedia.vue'
-import IconSounds from '../components/icons/IconSounds.vue'
-import IconToDo from '../components/icons/IconToDo.vue'
-import IconNotes from '../components/icons/IconNotes.vue'
-import IconFortune from '../components/icons/IconFortune.vue'
 
 export default {
   props: {

@@ -1,23 +1,21 @@
 <template>
   <div class="space-player" v-if="space">
-    <div class="space-view">
-      <YouTube
-        ref="youtubeRef"
-        :videoid="space.youtubeId"
-        :loop="play.loop"
-        :autoplay="play.autoplay"
-        :controls="play.controls"
-        style="
-          width: 120%;
-          height: 120%;
-          position: fixed;
-          pointer-events: none;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-        "
-      />
-    </div>
+    <YouTube
+      ref="youtubeRef"
+      :videoid="space.youtubeId"
+      :loop="play.loop"
+      :autoplay="play.autoplay"
+      :controls="play.controls"
+      style="
+        width: 120%;
+        height: 120%;
+        position: fixed;
+        pointer-events: none;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      "
+    />
   </div>
 
   <div v-else>Space Player Loading...</div>
@@ -72,10 +70,5 @@ export default {
   z-index: 1;
   width: 100vw;
   height: 100vh;
-}
-
-.space-view {
-  width: 100%;
-  height: 100%;
 }
 </style>

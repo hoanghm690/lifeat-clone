@@ -71,9 +71,13 @@ export default {
 }
 
 .content h3 {
-  line-height: 26px;
-  font-size: 18px;
+  line-height: 24px;
+  font-size: 16px;
   font-weight: bold;
+}
+
+.header-content span,
+.content h3 {
   text-shadow: 1px 1px 5px rgba(113, 113, 113, 0.5);
 }
 </style>
