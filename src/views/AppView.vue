@@ -85,8 +85,4 @@ export default {
   </div>
 </template>
 
-<style scoped>
-.screen {
-  overflow: hidden;
-}
-</style>
+<style scoped></style>

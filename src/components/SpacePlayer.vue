@@ -7,7 +7,15 @@
         :loop="play.loop"
         :autoplay="play.autoplay"
         :controls="play.controls"
-        style="width: 120vw; height: 120vh"
+        style="
+          width: 177.78vh;
+          height: 120%;
+          position: fixed;
+          pointer-events: none;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        "
       />
     </div>
   </div>
@@ -37,9 +45,9 @@ export default {
   },
   watch: {
     youtubeRef: {
-      handler(value) {
-        value.player.playVideo()
-        value.player.mute()
+      handler(video) {
+        video.player.playVideo()
+        video.player.mute()
       }
     },
     ambianceVolume: {
@@ -69,15 +77,5 @@ export default {
 .space-view {
   width: 100%;
   height: 100%;
-}
-
-.space-view iframe {
-  position: fixed;
-  pointer-events: none;
-  top: 50%;
-  left: 50%;
-  width: 120vw;
-  height: 120vh;
-  transform: translate(-50%, -50%);
 }
 </style>
