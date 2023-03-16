@@ -1,11 +1,17 @@
 <template>
-  <div class="draggable" @mousedown="dragMouseDown" ref="draggable">
+  <div
+    class="draggable"
+    @mousedown="dragMouseDown"
+    ref="draggable"
+    :style="`left: ${position.left}px; top: ${position.top}px`"
+  >
     <slot></slot>
   </div>
 </template>
 
 <script>
 import { ref } from 'vue'
+import storage from '../utils/storage.js'
 
 var pos1 = 0,
   pos2 = 0,
@@ -13,11 +19,30 @@ var pos1 = 0,
   pos4 = 0
 
 export default {
-  setup() {
+  props: {
+    name: String
+  },
+  setup(props) {
     const draggable = ref(null)
+    let position = {
+      top: 398.5,
+      left: 494.5
+    }
+
+    const storageKey = `${props.name}Position`
+
+    const storagePosition = storage.getData({ key: storageKey })
+
+    if (storagePosition) {
+      position = JSON.parse(storagePosition)
+    } else {
+      storage.setData({ key: storageKey, value: JSON.stringify(position) })
+    }
 
     return {
-      draggable
+      draggable,
+      position,
+      storageKey
     }
   },
   methods: {
@@ -36,12 +61,12 @@ export default {
       e = e || window.event
       e.preventDefault()
 
-      const elmnt = this.draggable
+      const element = this.draggable
 
       var winW = document.documentElement.clientWidth || document.body.clientWidth,
         winH = document.documentElement.clientHeight || document.body.clientHeight,
-        maxX = winW - elmnt.offsetWidth - 1,
-        maxY = winH - elmnt.offsetHeight - 1
+        maxX = winW - element.offsetWidth - 1,
+        maxY = winH - element.offsetHeight - 1
 
       // calculate the new cursor position:
       pos1 = pos3 - e.clientX
@@ -49,15 +74,19 @@ export default {
       pos3 = e.clientX
       pos4 = e.clientY
       // set the element's new position:
-      if (elmnt.offsetTop - pos2 <= maxY && elmnt.offsetTop - pos2 >= 0) {
-        elmnt.style.top = elmnt.offsetTop - pos2 + 'px'
-      }
-      if (elmnt.offsetLeft - pos1 <= maxX && elmnt.offsetLeft - pos1 >= 0) {
-        elmnt.style.left = elmnt.offsetLeft - pos1 + 'px'
+      const position = {
+        top: element.offsetTop - pos2,
+        left: element.offsetLeft - pos1
       }
 
-      // this.draggable.style.top = this.draggable.offsetTop - pos2 + 'px'
-      // this.draggable.style.left = this.draggable.offsetLeft - pos1 + 'px'
+      storage.setData({ key: this.storageKey, value: JSON.stringify(position) })
+
+      if (position.top <= maxY && position.top >= 0) {
+        element.style.top = position.top + 'px'
+      }
+      if (position.left <= maxX && position.left >= 0) {
+        element.style.left = position.left + 'px'
+      }
     },
 
     closeDragElement() {
@@ -74,8 +103,6 @@ export default {
   color: #ffffff;
   position: fixed;
   z-index: 103;
-  left: 494.5px;
-  top: 398.5px;
   width: 360px;
   height: auto;
   min-width: 360px;

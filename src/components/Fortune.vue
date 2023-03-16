@@ -1,5 +1,5 @@
 <template>
-  <Draggable>
+  <Draggable name="fortune">
     <div class="fortune-wrapper">
       <div class="header">
         <div class="header-content">
