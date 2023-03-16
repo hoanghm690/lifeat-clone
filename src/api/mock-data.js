@@ -142,13 +142,44 @@ export const videos = [
 ]
 
 export const fortunes = [
-  {
-    id: 1,
-    description:
-      '"The secret of happiness is not in doing what one likes, but in liking what one does."'
-  },
-  {
-    id: 2,
-    description: '"The more one judges, the less one loves."'
-  }
+  '"The secret of happiness is not in doing what one likes, but in liking what one does."',
+  '"The more one judges, the less one loves."',
+  '"The more one judges, the less one loves."',
+  '"The more one judges, the less one loves."',
+  '"The more one judges, the less one loves."',
+  '"The more one judges, the less one loves."',
+  '"The more one judges, the less one loves."',
+  '"The more one judges, the less one loves."',
+  '"The more one judges, the less one loves."',
+  '"The more one judges, the less one loves."',
+  '"The more one judges, the less one loves."',
+  '"The more one judges, the less one loves."',
+  '"The more one judges, the less one loves."',
+  '"The more one judges, the less one loves."',
+  '"The more one judges, the less one loves."',
+  '"The more one judges, the less one loves."',
+  '"The more one judges, the less one loves."',
+  '"The more one judges, the less one loves."',
+  '"The more one judges, the less one loves."',
+  '"The more one judges, the less one loves."',
+  '"The more one judges, the less one loves."',
+  '"The more one judges, the less one loves."',
+  '"The more one judges, the less one loves."',
+  '"The more one judges, the less one loves."',
+  '"The more one judges, the less one loves."',
+  '"The more one judges, the less one loves."',
+  '"The more one judges, the less one loves."',
+  '"The more one judges, the less one loves."',
+  '"The more one judges, the less one loves."',
+  '"The more one judges, the less one loves."',
+  '"The more one judges, the less one loves."',
+  '"The more one judges, the less one loves."',
+  '"The more one judges, the less one loves."',
+  '"The more one judges, the less one loves."',
+  '"The more one judges, the less one loves."',
+  '"The more one judges, the less one loves."',
+  '"The more one judges, the less one loves."',
+  '"The more one judges, the less one loves."',
+  '"The more one judges, the less one loves."',
+  '"The more one judges, the less one loves."'
 ]

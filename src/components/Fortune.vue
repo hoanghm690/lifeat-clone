@@ -12,7 +12,7 @@
         <div @click="onCloseFortune" class="close-btn"><IconMinus /></div>
       </div>
       <div class="content">
-        <h3>"The more one judges, the less one loves."</h3>
+        <h3>{{ fortune }}</h3>
       </div>
     </div>
   </Draggable>
@@ -23,14 +23,25 @@ import Draggable from './Draggable.vue'
 import IconFortune from '../components/icons/IconFortune.vue'
 import IconMinus from '../components/icons/IconMinus.vue'
 import storage from '../utils/storage'
+import { fortunes } from '../api/mock-data'
+import { SK_FORTUNE_WIDGET } from '../utils/constants'
 
 export default {
   props: {
     wasOpen: Boolean
   },
 
+  setup() {
+    const today = new Date().getDate()
+    const fortune = fortunes[today]
+
+    return {
+      fortune,
+      storageKey: SK_FORTUNE_WIDGET
+    }
+  },
+
   data() {
-    const storageKey = 'fortuneWidget'
     const widget = {
       top: 398.5,
       left: 494.5,
@@ -38,15 +49,14 @@ export default {
     }
 
     return {
-      widget,
-      storageKey
+      widget
     }
   },
 
   watch: {
     wasOpen: {
       handler(val) {
-        const storageWidget = storage.getData({ key: this.storageKey })
+        const storageWidget = storage.getData({ key: SK_FORTUNE_WIDGET })
         const storageWidgetData = JSON.parse(storageWidget)
 
         if (storageWidgetData) {
@@ -61,7 +71,7 @@ export default {
           }
         }
 
-        storage.setData({ key: this.storageKey, value: JSON.stringify(this.widget) })
+        storage.setData({ key: SK_FORTUNE_WIDGET, value: JSON.stringify(this.widget) })
       }
     }
   },
@@ -77,7 +87,7 @@ export default {
       event.preventDefault()
       this.$emit('onCloseFortune')
 
-      const storageWidget = storage.getData({ key: this.storageKey })
+      const storageWidget = storage.getData({ key: SK_FORTUNE_WIDGET })
       const storageWidgetData = JSON.parse(storageWidget)
 
       if (storageWidgetData) {
@@ -87,7 +97,7 @@ export default {
         }
 
         storage.setData({
-          key: this.storageKey,
+          key: SK_FORTUNE_WIDGET,
           value: JSON.stringify(widget)
         })
       }
@@ -144,5 +154,6 @@ export default {
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  height: 22px;
 }
 </style>

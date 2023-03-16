@@ -4,6 +4,7 @@ import SpacePlayer from '../components/SpacePlayer.vue'
 import Fortune from '../components/Fortune.vue'
 import { getVideoById, getVideosByCategory, randomSpace } from '../services/app'
 import storage from '../utils/storage'
+import { SK_FORTUNE_WIDGET } from '../utils/constants'
 
 export default {
   components: {
@@ -25,7 +26,7 @@ export default {
   },
 
   setup() {
-    const fortuneWidget = storage.getData({ key: 'fortuneWidget' })
+    const fortuneWidget = storage.getData({ key: SK_FORTUNE_WIDGET })
 
     return {
       fortuneWidget: JSON.parse(fortuneWidget)
