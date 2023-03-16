@@ -2,6 +2,8 @@
   --color-text: #4e4e4e;
   --color-background: #999999;
   --font-family: 'Montserrat', sans-serif;
+  --dark: #232931;
+  --light: #fcfcfc;
 }
 
 *,
