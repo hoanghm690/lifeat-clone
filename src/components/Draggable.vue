@@ -3,7 +3,7 @@
     class="draggable"
     @mousedown="dragMouseDown"
     ref="draggable"
-    :style="`left: ${position.left}px; top: ${position.top}px`"
+    :style="`left: ${widget.left}px; top: ${widget.top}px`"
   >
     <slot></slot>
   </div>
@@ -20,31 +20,19 @@ var pos1 = 0,
 
 export default {
   props: {
-    name: String
+    name: String,
+    widget: Object,
+    storageKey: String
   },
-  setup(props) {
+
+  setup() {
     const draggable = ref(null)
-    let position = {
-      top: 398.5,
-      left: 494.5
-    }
-
-    const storageKey = `${props.name}Position`
-
-    const storagePosition = storage.getData({ key: storageKey })
-
-    if (storagePosition) {
-      position = JSON.parse(storagePosition)
-    } else {
-      storage.setData({ key: storageKey, value: JSON.stringify(position) })
-    }
 
     return {
-      draggable,
-      position,
-      storageKey
+      draggable
     }
   },
+
   methods: {
     dragMouseDown(e) {
       e = e || window.event
@@ -73,13 +61,12 @@ export default {
       pos2 = pos4 - e.clientY
       pos3 = e.clientX
       pos4 = e.clientY
+
       // set the element's new position:
       const position = {
         top: element.offsetTop - pos2,
         left: element.offsetLeft - pos1
       }
-
-      storage.setData({ key: this.storageKey, value: JSON.stringify(position) })
 
       if (position.top <= maxY && position.top >= 0) {
         element.style.top = position.top + 'px'
@@ -90,6 +77,13 @@ export default {
     },
 
     closeDragElement() {
+      const widget = {
+        top: this.draggable.offsetTop - pos2,
+        left: this.draggable.offsetLeft - pos1,
+        wasOpen: this.widget.wasOpen
+      }
+      storage.setData({ key: this.storageKey, value: JSON.stringify(widget) })
+
       // stop moving when mouse button is released:
       document.onmouseup = null
       document.onmousemove = null

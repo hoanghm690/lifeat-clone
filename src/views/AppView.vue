@@ -3,6 +3,7 @@ import Sidebar from '../components/Sidebar.vue'
 import SpacePlayer from '../components/SpacePlayer.vue'
 import Fortune from '../components/Fortune.vue'
 import { getVideoById, getVideosByCategory, randomSpace } from '../services/app'
+import storage from '../utils/storage'
 
 export default {
   components: {
@@ -10,6 +11,7 @@ export default {
     SpacePlayer,
     Fortune
   },
+
   data() {
     return {
       space: null,
@@ -21,7 +23,21 @@ export default {
       }
     }
   },
+
+  setup() {
+    const fortuneWidget = storage.getData({ key: 'fortuneWidget' })
+
+    return {
+      fortuneWidget: JSON.parse(fortuneWidget)
+    }
+  },
+
   mounted() {
+    if (this.fortuneWidget && this.fortuneWidget.wasOpen) {
+      this.toolbar.isFortuneOpen = true
+    }
+
+    // handle get space
     const query = this.$route.query
 
     if (!query || Object.keys(query).length === 0) {
@@ -39,6 +55,7 @@ export default {
       this.space = video
     }
   },
+
   methods: {
     onCategoryChange(category) {
       const categoryId = category.id
@@ -107,7 +124,7 @@ export default {
 
     <SpacePlayer :space="space" :ambianceVolume="ambianceVolume" />
 
-    <Fortune v-if="toolbar.isFortuneOpen" @onCloseFortune="onCloseFortune" />
+    <Fortune :wasOpen="toolbar.isFortuneOpen" @onCloseFortune="onCloseFortune" />
   </div>
 </template>
 
