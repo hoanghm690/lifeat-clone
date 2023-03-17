@@ -1,20 +1,19 @@
 <template>
   <Draggable name="fortune" :widget="widget" :storageKey="storageKey" v-if="wasOpen">
-    <div class="fortune-wrapper">
-      <div class="header">
-        <div class="header-content">
-          <IconFortune />
-          <span>
-            <span>Daily Fortune | </span>
-            <span class="date">{{ new Date().toLocaleDateString() }}</span>
-          </span>
-        </div>
-        <div @click="onCloseFortune" class="close-btn"><IconMinus /></div>
+    <template #draggable-header>
+      <div class="header-content">
+        <IconFortune />
+        <span>
+          <span>Daily Fortune | </span>
+          <span class="date">{{ new Date().toLocaleDateString() }}</span>
+        </span>
       </div>
-      <div class="content">
-        <h3>{{ fortune }}</h3>
-      </div>
-    </div>
+      <div @click="onCloseFortune" class="close-btn"><IconMinus /></div>
+    </template>
+
+    <template #draggable-content>
+      <h3>{{ fortune }}</h3>
+    </template>
   </Draggable>
 </template>
 
@@ -107,17 +106,6 @@ export default {
 </script>
 
 <style scoped>
-.fortune-wrapper {
-  height: auto;
-  width: auto;
-}
-
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
 .header-content {
   opacity: 0.7;
   font-weight: 500;
@@ -131,11 +119,6 @@ export default {
 
 .fortune-teller-icon {
   margin-right: 4px;
-}
-
-.header,
-.content {
-  padding: 8px 22px;
 }
 
 .content h3 {

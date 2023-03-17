@@ -12,6 +12,7 @@
   "dependencies": {
     "vue": "^3.2.47",
     "vue-router": "^4.1.6",
+    "vue-timer-hook": "^1.0.65",
     "vuex": "^4.0.2",
     "vuex-plugin-persistedstate": "^1.0.6",
     "youtube-vue3": "^0.1.15"

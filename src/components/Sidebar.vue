@@ -95,7 +95,7 @@
           <span>Calendar</span>
         </div>
 
-        <div class="toolbar-widget">
+        <div class="toolbar-widget" :class="{ open: toolbar.isTimerOpen }" @click="onToggleTimer">
           <IconTimer />
           <span>Timer</span>
         </div>
@@ -203,6 +203,16 @@ export default {
     }, 1000)
   },
 
+  emits: [
+    'onCategoryChange',
+    'onToggleVolume',
+    'onToggleSpaces',
+    'onToggleFortune',
+    'onChangeVolume',
+    'onToggleTheme',
+    'onToggleTimer'
+  ],
+
   methods: {
     onClick(category) {
       this.$emit('onCategoryChange', category)
@@ -227,6 +237,10 @@ export default {
 
     onToggleTheme() {
       this.$emit('onToggleTheme')
+    },
+
+    onToggleTimer() {
+      this.$emit('onToggleTimer')
     }
   }
 }
@@ -443,6 +457,12 @@ export default {
 
 .saved-space-btn {
   margin-right: 4px;
+}
+
+.saved-space-btn,
+.saved-space-menu-btn {
+  width: 36px;
+  height: 36px;
 }
 
 .volume-slider,

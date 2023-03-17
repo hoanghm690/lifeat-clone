@@ -2,15 +2,17 @@
 import Sidebar from '../components/Sidebar.vue'
 import SpacePlayer from '../components/SpacePlayer.vue'
 import Fortune from '../components/Fortune.vue'
+import Timer from '../components/Timer.vue'
 import { getVideoById, getVideosByCategory, randomSpace } from '../services/app'
 import storage from '../utils/storage'
-import { SK_FORTUNE_WIDGET, SK_DARK_MODE } from '../utils/constants'
+import { SK_FORTUNE_WIDGET, SK_DARK_MODE, SK_TIMER_WIDGET } from '../utils/constants'
 
 export default {
   components: {
     Sidebar,
     SpacePlayer,
-    Fortune
+    Fortune,
+    Timer
   },
 
   data() {
@@ -21,7 +23,8 @@ export default {
       toolbar: {
         isSpacesOpen: true,
         isFortuneOpen: false,
-        isDarkMode: false
+        isDarkMode: false,
+        isTimerOpen: false
       }
     }
   },
@@ -29,9 +32,11 @@ export default {
   setup() {
     const fortuneWidget = storage.getData({ key: SK_FORTUNE_WIDGET })
     const darkMode = storage.getData({ key: SK_DARK_MODE })
+    const timerWidget = storage.getData({ key: SK_TIMER_WIDGET })
 
     return {
       fortuneWidget: JSON.parse(fortuneWidget),
+      timerWidget: JSON.parse(timerWidget),
       darkMode: JSON.parse(darkMode)
     }
   },
@@ -39,6 +44,10 @@ export default {
   mounted() {
     if (this.fortuneWidget && this.fortuneWidget.wasOpen) {
       this.toolbar.isFortuneOpen = true
+    }
+
+    if (this.timerWidget && this.timerWidget.wasOpen) {
+      this.toolbar.isTimerOpen = true
     }
 
     if (this.darkMode) {
@@ -105,6 +114,10 @@ export default {
       this.toolbar.isFortuneOpen = false
     },
 
+    onCloseTimer() {
+      this.toolbar.isTimerOpen = false
+    },
+
     onToggleSpaces() {
       this.toolbar.isSpacesOpen = !this.toolbar.isSpacesOpen
     },
@@ -119,6 +132,10 @@ export default {
         key: SK_DARK_MODE,
         value: JSON.stringify(this.toolbar.isDarkMode)
       })
+    },
+
+    onToggleTimer() {
+      this.toolbar.isTimerOpen = !this.toolbar.isTimerOpen
     }
   }
 }
@@ -137,11 +154,14 @@ export default {
       @onToggleSpaces="onToggleSpaces"
       @onToggleFortune="onToggleFortune"
       @onToggleTheme="onToggleTheme"
+      @onToggleTimer="onToggleTimer"
     />
 
     <SpacePlayer :space="space" :ambianceVolume="ambianceVolume" />
 
     <Fortune :wasOpen="toolbar.isFortuneOpen" @onCloseFortune="onCloseFortune" />
+
+    <Timer :wasOpen="toolbar.isTimerOpen" @onCloseTimer="onCloseTimer" />
   </div>
 </template>
 

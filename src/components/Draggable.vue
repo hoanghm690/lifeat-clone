@@ -1,11 +1,14 @@
 <template>
-  <div
-    class="draggable"
-    @mousedown="dragMouseDown"
-    ref="draggable"
-    :style="`left: ${widget.left}px; top: ${widget.top}px`"
-  >
-    <slot></slot>
+  <div class="draggable" ref="draggable" :style="`left: ${widget.left}px; top: ${widget.top}px`">
+    <div class="draggable-wrapper" :class="{ bg: hasBgColor }">
+      <div class="draggable-header" @mousedown="dragMouseDown">
+        <slot name="draggable-header"></slot>
+      </div>
+
+      <div class="draggable-content">
+        <slot name="draggable-content"></slot>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -22,7 +25,8 @@ export default {
   props: {
     name: String,
     widget: Object,
-    storageKey: String
+    storageKey: String,
+    hasBgColor: Boolean
   },
 
   setup() {
@@ -94,7 +98,6 @@ export default {
 
 <style scoped>
 .draggable {
-  color: #ffffff;
   position: fixed;
   z-index: 103;
   width: 360px;
@@ -103,6 +106,42 @@ export default {
   max-height: 704px;
   max-width: 1004px;
   background: rgba(0, 0, 0, 0);
+  color: var(--light);
+}
+
+.draggable-wrapper {
+  height: auto;
+  width: auto;
+  border-radius: 7px;
+}
+
+.draggable-header {
   cursor: move;
+}
+
+.light .draggable-wrapper.bg {
+  color: var(--dark);
+  background-color: var(--light);
+}
+
+.dark .draggable-wrapper.bg {
+  color: var(--light);
+  background-color: var(--dark);
+}
+
+.draggable-header,
+.draggable-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 22px;
+}
+
+.light .bg .draggable-header {
+  border-bottom: 1px solid var(--border-light);
+}
+
+.dark .bg .draggable-header {
+  border-bottom: 1px solid var(--border-dark);
 }
 </style>
