@@ -4,7 +4,7 @@ import SpacePlayer from '../components/SpacePlayer.vue'
 import Fortune from '../components/Fortune.vue'
 import { getVideoById, getVideosByCategory, randomSpace } from '../services/app'
 import storage from '../utils/storage'
-import { SK_FORTUNE_WIDGET } from '../utils/constants'
+import { SK_FORTUNE_WIDGET, SK_DARK_MODE } from '../utils/constants'
 
 export default {
   components: {
@@ -20,22 +20,29 @@ export default {
       isMuted: true,
       toolbar: {
         isSpacesOpen: true,
-        isFortuneOpen: false
+        isFortuneOpen: false,
+        isDarkMode: false
       }
     }
   },
 
   setup() {
     const fortuneWidget = storage.getData({ key: SK_FORTUNE_WIDGET })
+    const darkMode = storage.getData({ key: SK_DARK_MODE })
 
     return {
-      fortuneWidget: JSON.parse(fortuneWidget)
+      fortuneWidget: JSON.parse(fortuneWidget),
+      darkMode: JSON.parse(darkMode)
     }
   },
 
   mounted() {
     if (this.fortuneWidget && this.fortuneWidget.wasOpen) {
       this.toolbar.isFortuneOpen = true
+    }
+
+    if (this.darkMode) {
+      this.toolbar.isDarkMode = true
     }
 
     // handle get space
@@ -104,13 +111,21 @@ export default {
 
     onToggleFortune() {
       this.toolbar.isFortuneOpen = !this.toolbar.isFortuneOpen
+    },
+
+    onToggleTheme() {
+      this.toolbar.isDarkMode = !this.toolbar.isDarkMode
+      storage.setData({
+        key: SK_DARK_MODE,
+        value: JSON.stringify(this.toolbar.isDarkMode)
+      })
     }
   }
 }
 </script>
 
 <template>
-  <div class="screen">
+  <div class="screen" :class="{ light: !toolbar.isDarkMode, dark: toolbar.isDarkMode }">
     <Sidebar
       :space="space"
       :ambianceVolume="ambianceVolume"
@@ -121,6 +136,7 @@ export default {
       @onChangeVolume="onChangeVolume"
       @onToggleSpaces="onToggleSpaces"
       @onToggleFortune="onToggleFortune"
+      @onToggleTheme="onToggleTheme"
     />
 
     <SpacePlayer :space="space" :ambianceVolume="ambianceVolume" />

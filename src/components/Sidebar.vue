@@ -128,6 +128,11 @@
           <IconFortune />
           <span>Fortune</span>
         </div>
+
+        <div class="toolbar-widget" :class="{ open: toolbar.isDarkMode }" @click="onToggleTheme">
+          <IconMoon />
+          <span>Dark</span>
+        </div>
       </div>
     </div>
   </div>
@@ -155,6 +160,7 @@ import IconToDo from '../components/icons/IconToDo.vue'
 import IconVerified from '../components/icons/IconVerified.vue'
 import IconVolumeOff from '../components/icons/IconVolumeOff.vue'
 import IconVolumeOn from '../components/icons/IconVolumeOn.vue'
+import IconMoon from '../components/icons/IconMoon.vue'
 
 export default {
   props: {
@@ -180,7 +186,8 @@ export default {
     IconSounds,
     IconToDo,
     IconNotes,
-    IconFortune
+    IconFortune,
+    IconMoon
   },
 
   data() {
@@ -216,6 +223,10 @@ export default {
     onChangeVolume(event) {
       const ambianceVolume = event.target.value
       this.$emit('onChangeVolume', ambianceVolume)
+    },
+
+    onToggleTheme() {
+      this.$emit('onToggleTheme')
     }
   }
 }
@@ -241,13 +252,19 @@ export default {
 .sidebar-left {
   height: 100%;
   width: 300px;
-  background-color: #fff;
   border-radius: 7px;
+}
+
+.light .sidebar-left {
+  background-color: var(--light);
+}
+
+.dark .sidebar-left {
+  background-color: var(--dark);
 }
 
 .sidebar-right {
   width: 55px;
-  background-color: #fff;
   border-radius: 7px;
   height: auto;
   font-size: 10px;
@@ -256,6 +273,14 @@ export default {
   align-items: center;
   margin-left: 8px;
   padding: 10px 4px;
+}
+
+.light .sidebar-right {
+  background-color: var(--light);
+}
+
+.dark .sidebar-right {
+  background-color: var(--dark);
 }
 
 .toolbar-widget {
@@ -271,8 +296,12 @@ export default {
   margin-bottom: 0;
 }
 
-.toolbar-widget svg {
-  fill: #4e4e4e;
+.light .toolbar-widget svg {
+  fill: var(--icon-dark);
+}
+
+.dark .toolbar-widget svg {
+  fill: var(--icon-light);
 }
 
 .toolbar-widget.open {
@@ -344,8 +373,6 @@ export default {
 }
 
 .shuffler-category {
-  border: 1px solid #e9e9e9;
-  background-color: rgba(255, 255, 255, 0.75);
   height: 55px;
   width: 55px;
   border-radius: 16px;
@@ -355,9 +382,24 @@ export default {
   cursor: pointer;
 }
 
-.shuffler-category.active,
-.shuffler-category:hover {
+.light .shuffler-category {
+  border: 1px solid #e9e9e9;
+  background-color: rgba(255, 255, 255, 0.75);
+}
+
+.dark .shuffler-category {
+  border: 1px solid #595959;
+  background-color: rgba(50, 50, 50, 0.75);
+}
+
+.light .shuffler-category.active,
+.light .shuffler-category:hover {
   background-color: rgba(241, 241, 241, 0.95);
+}
+
+.dark .shuffler-category.active,
+.dark .shuffler-category:hover {
+  background-color: rgba(67, 67, 67, 0.95);
 }
 
 .shuffler-category img {
@@ -371,9 +413,16 @@ export default {
 }
 
 .space-info-block {
-  background-color: #f6f6f6;
   gap: 12px;
   padding: 12px 12px 24px 24px;
+}
+
+.light .space-info-block {
+  background-color: #f6f6f6;
+}
+
+.dark .space-info-block {
+  background-color: #1e1e1e;
 }
 
 .space-indicator-content {
@@ -403,7 +452,7 @@ export default {
 }
 
 .volume-slider input {
-  background: #4e4e4e;
+  background-color: var(--icon-dark);
   width: 100%;
   height: 2px;
   margin-left: 12px;
