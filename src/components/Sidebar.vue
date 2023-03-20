@@ -2,72 +2,73 @@
   <div class="sidebar" v-if="space">
     <div class="sidebar-wrapper" :class="{ closed: !toolbar.isSpacesOpen }">
       <div class="sidebar-left">
-        <div class="sidebar-header">
-          <div class="explore-page-back-btn">Explore 🔎</div>
-          <div class="clock">{{ time }}</div>
-        </div>
-        <div class="sidebar-content">
-          <div class="shuffle-spaces">
-            <div class="shuffler-header">
-              <div>Shuffle Spaces</div>
-              <div class="shuffler-controls">
-                <IconChevronLeft />
-                <IconChevronRight />
+        <div class="sidebar-inner">
+          <div class="sidebar-header">
+            <div class="explore-page-back-btn">Explore 🔎</div>
+            <div class="clock">{{ time }}</div>
+          </div>
+          <div class="sidebar-content">
+            <div class="shuffle-spaces">
+              <div class="shuffler-header">
+                <div>Shuffle Spaces</div>
+                <div class="shuffler-controls">
+                  <IconChevronLeft />
+                  <IconChevronRight />
+                </div>
               </div>
-            </div>
-            <div class="shuffler-description">Click an emoji multiple times for more content</div>
-            <div class="shuffler-categories">
-              <div
-                class="shuffler-category"
-                v-for="category in categories"
-                :key="category.id"
-                :class="{ active: space.categoryId === category.id }"
-                @click="onClick(category)"
-              >
-                <img :src="category.icon" :alt="category.name" />
+              <div class="shuffler-description">Click an emoji multiple times for more content</div>
+              <div class="shuffler-categories">
+                <div
+                  class="shuffler-category"
+                  v-for="category in categories"
+                  :key="category.id"
+                  :class="{ active: space.categoryId === category.id }"
+                  @click="onClick(category)"
+                >
+                  <img :src="category.icon" :alt="category.name" />
+                </div>
               </div>
-            </div>
-            <div class="shuffler-info">
-              <div class="space-info-block">
-                <div class="space-indicator">
-                  <div class="space-indicator-content">
-                    <div class="space-name-text">
-                      <span>{{ space.shortTitle }}</span>
+              <div class="shuffler-info">
+                <div class="space-info-block">
+                  <div class="space-indicator">
+                    <div class="space-indicator-content">
+                      <div class="space-name-text">
+                        <span>{{ space.shortTitle }}</span>
+                      </div>
+                      <div class="share-space-link">
+                        <span>Share Space →</span>
+                      </div>
                     </div>
-                    <div class="share-space-link">
-                      <span>Share Space →</span>
-                    </div>
-                  </div>
 
-                  <div class="space-indicator-actions">
-                    <div class="lifeat-btn saved-space-btn">
-                      <IconSavedSpace />
-                    </div>
-                    <div class="lifeat-btn saved-space-menu-btn">
-                      <IconSavedSpaceMenu />
+                    <div class="space-indicator-actions">
+                      <div class="lifeat-btn saved-space-btn">
+                        <IconSavedSpace />
+                      </div>
+                      <div class="lifeat-btn saved-space-menu-btn">
+                        <IconSavedSpaceMenu />
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div class="volume-slider">
-                  <div class="volume-slider-toggle" @click="onToggleVolume">
-                    <IconVolumeOff v-if="isMuted" />
-                    <IconVolumeOn v-else />
+                  <div class="volume-slider">
+                    <div class="volume-slider-toggle" @click="onToggleVolume">
+                      <IconVolumeOff v-if="isMuted" />
+                      <IconVolumeOn v-else />
+                    </div>
+                    <input
+                      type="range"
+                      min="0"
+                      max="100"
+                      step="1"
+                      :value="ambianceVolume"
+                      @change="onChangeVolume"
+                    />
                   </div>
-                  <input
-                    type="range"
-                    min="0"
-                    max="100"
-                    step="1"
-                    :value="ambianceVolume"
-                    @change="onChangeVolume"
-                  />
                 </div>
-              </div>
-              <div class="space-creator-info">
-                <a :href="`https://www.youtube.com/watch?v=${space.youtubeId}`" target="_blank">
-                  <div class="creator-video-link">Video creator</div>
-                </a>
-                <!-- <div class="creator-avatar">
+                <div class="space-creator-info">
+                  <a :href="`https://www.youtube.com/watch?v=${space.youtubeId}`" target="_blank">
+                    <div class="creator-video-link">Video creator</div>
+                  </a>
+                  <!-- <div class="creator-avatar">
                 <IconLogo />
               </div>
               <div class="creator-text-content">
@@ -77,11 +78,18 @@
                 </div>
                 <div class="creator-links">..............</div>
               </div> -->
+                </div>
               </div>
             </div>
           </div>
+
+          <!-- <div class="sidebar-footer">3</div> -->
         </div>
-        <!-- <div class="sidebar-footer">3</div> -->
+
+        <div class="sidebar-tab" @click="onToggleSpaces">
+          <IconLeftArrow v-if="toolbar.isSpacesOpen" />
+          <IconRightArrow v-else />
+        </div>
       </div>
 
       <div class="sidebar-right">
@@ -161,6 +169,8 @@ import IconVerified from '../components/icons/IconVerified.vue'
 import IconVolumeOff from '../components/icons/IconVolumeOff.vue'
 import IconVolumeOn from '../components/icons/IconVolumeOn.vue'
 import IconMoon from '../components/icons/IconMoon.vue'
+import IconLeftArrow from '../components/icons/IconLeftArrow.vue'
+import IconRightArrow from '../components/icons/IconRightArrow.vue'
 
 export default {
   props: {
@@ -187,10 +197,12 @@ export default {
     IconToDo,
     IconNotes,
     IconFortune,
-    IconMoon
+    IconMoon,
+    IconLeftArrow,
+    IconRightArrow
   },
 
-  data() {
+  setup() {
     return {
       time: dateCurrentWithoutSecond(),
       categories: categories
@@ -265,19 +277,39 @@ export default {
 
 .sidebar-left {
   height: 100%;
-  width: 300px;
-  border-radius: 7px;
+  display: flex;
 }
 
-.light .sidebar-left {
+.sidebar-inner {
+  border-radius: 7px;
+  width: 300px;
+  height: 100%;
+}
+
+.sidebar-tab {
+  width: 30px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top-right-radius: 7px;
+  border-bottom-right-radius: 7px;
+  margin-top: 50px;
+}
+
+.light .sidebar-left .sidebar-inner,
+.light .sidebar-left .sidebar-tab {
   background-color: var(--light);
 }
 
-.dark .sidebar-left {
+.dark .sidebar-left .sidebar-inner,
+.dark .sidebar-left .sidebar-tab {
   background-color: var(--dark);
 }
 
 .sidebar-right {
+  position: fixed;
+  left: 316px;
   width: 55px;
   border-radius: 7px;
   height: auto;
@@ -285,8 +317,12 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-left: 8px;
   padding: 10px 4px;
+  transition: all 0.3s ease-out;
+}
+
+.closed .sidebar-right {
+  left: 8px;
 }
 
 .light .sidebar-right {
