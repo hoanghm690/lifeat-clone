@@ -12,6 +12,11 @@
 </template>
 
 <style scoped>
+svg {
+  width: 22px;
+  height: 22px;
+}
+
 .light svg {
   fill: var(--dark);
 }

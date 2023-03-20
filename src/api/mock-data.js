@@ -138,6 +138,57 @@ export const videos = [
     shortTitle: 'Fascinating Sunset over the Tropical Beach',
     youtubeId: '0ANLBX2EgmM',
     categoryId: 3
+  },
+  {
+    id: 14,
+    title: 'new year, new me. 🌃 starry lofi mix',
+    shortTitle: 'new year, new me. 🌃 starry lofi mix',
+    youtubeId: 'v3mqYrymksg',
+    categoryId: 6
+  },
+  {
+    id: 15,
+    title: 'Sake by Lofi Geek 🍝 Japanese Lofi Hip Hop Mix',
+    shortTitle: 'Sake by Lofi Geek 🍝',
+    youtubeId: 'dgkdsbAzpx0',
+    categoryId: 6
+  },
+  {
+    id: 16,
+    title: 'Bangkok, Thailand Soundscape and Sunset (City Sounds)',
+    shortTitle: 'Bangkok, Thailand',
+    youtubeId: 'OsB2YCYGVt0',
+    categoryId: 7
+  },
+  {
+    id: 17,
+    title:
+      'Cozy Long Night Train Ride | Train Travel Ambience Sounds | Relaxing ASMR for Sleep, Reading, Work',
+    shortTitle: 'Cozy Long Night Train Ride',
+    youtubeId: 'cZGZVY2REXA',
+    categoryId: 5
+  },
+  {
+    id: 18,
+    title:
+      'Tokyo coffee shop Sounds 40 min | Chohu Tokyo, Japan | Sarutahiko coffee ambient Sounds for study',
+    shortTitle: 'Tokyo, Japan',
+    youtubeId: 'qMHbh6XmgwM',
+    categoryId: 4
+  },
+  {
+    id: 19,
+    title: 'Snow Day at Cafe, Coffee Shop Sounds and Ambience (Jazz Music) 4k',
+    shortTitle: 'Snow Day Cafe',
+    youtubeId: 'KLLVXw335u4',
+    categoryId: 4
+  },
+  {
+    id: 20,
+    title: 'Cozy Paris Ambience in Aesthetic Art Studio | Night Rain after 3 hours',
+    shortTitle: 'Cozy Paris Ambience in Aesthetic Art Studio',
+    youtubeId: 'pX5HL3fO-hQ',
+    categoryId: 8
   }
 ]
 

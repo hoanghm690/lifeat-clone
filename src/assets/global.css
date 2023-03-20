@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
   --color-text: #4e4e4e;
   --font-family: 'Montserrat', sans-serif;
@@ -114,4 +118,16 @@ input[type='range']::-webkit-slider-thumb {
   justify-content: center;
   cursor: pointer;
   height: 22px;
+}
+
+.dynamic-element {
+  position: fixed;
+  height: auto;
+  width: auto;
+  left: 8px;
+  -webkit-transition: all 0.3s ease-out;
+  -moz-transition: all 0.3s ease-out;
+  -ms-transition: all 0.3s ease-out;
+  -o-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out;
 }

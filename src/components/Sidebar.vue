@@ -1,6 +1,6 @@
 <template>
-  <div class="sidebar" v-if="space">
-    <div class="sidebar-wrapper" :class="{ closed: !toolbar.isSpacesOpen }">
+  <div v-if="space">
+    <div class="dynamic-element sidebar-wrapper" :class="{ closed: !toolbar.isSpacesOpen }">
       <div class="sidebar-left">
         <div class="sidebar-inner">
           <div class="sidebar-header">
@@ -92,7 +92,7 @@
         </div>
       </div>
 
-      <div class="sidebar-right">
+      <div class="dynamic-element sidebar-right">
         <div class="toolbar-widget" :class="{ open: toolbar.isSpacesOpen }" @click="onToggleSpaces">
           <IconPicture />
           <span>Spaces</span>
@@ -202,7 +202,7 @@ export default {
     IconRightArrow
   },
 
-  setup() {
+  data() {
     return {
       time: dateCurrentWithoutSecond(),
       categories: categories
@@ -262,12 +262,10 @@ export default {
 .sidebar-wrapper {
   display: flex;
   align-items: center;
-  position: fixed;
   left: 0;
   margin: 8px;
   height: calc(100% - 8px * 2);
   width: auto;
-  transition: all 0.3s ease-out;
   z-index: 999;
 }
 
@@ -308,17 +306,14 @@ export default {
 }
 
 .sidebar-right {
-  position: fixed;
   left: 316px;
   width: 55px;
   border-radius: 7px;
-  height: auto;
   font-size: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 10px 4px;
-  transition: all 0.3s ease-out;
 }
 
 .closed .sidebar-right {

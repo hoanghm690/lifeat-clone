@@ -1,4 +1,5 @@
 <script>
+import Header from '../components/Header.vue'
 import Sidebar from '../components/Sidebar.vue'
 import SpacePlayer from '../components/SpacePlayer.vue'
 import Fortune from '../components/Fortune.vue'
@@ -12,7 +13,8 @@ export default {
     Sidebar,
     SpacePlayer,
     Fortune,
-    Timer
+    Timer,
+    Header
   },
 
   data() {
@@ -143,6 +145,8 @@ export default {
 
 <template>
   <div class="screen" :class="{ light: !toolbar.isDarkMode, dark: toolbar.isDarkMode }">
+    <Header :isSpacesOpen="toolbar.isSpacesOpen" />
+
     <Sidebar
       :space="space"
       :ambianceVolume="ambianceVolume"
