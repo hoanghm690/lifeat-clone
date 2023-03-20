@@ -131,12 +131,4 @@ export default {
 .content h3 {
   text-shadow: 1px 1px 5px rgba(113, 113, 113, 0.5);
 }
-
-.close-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  height: 22px;
-}
 </style>

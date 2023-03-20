@@ -14,16 +14,29 @@
     </template>
 
     <template #draggable-content>
-      <span class="content-time"
-        >{{ timer.minutes.value.toString().padStart(2, '0') }}:{{
-          timer.seconds.value.toString().padStart(2, '0')
-        }}</span
-      >
-      <div class="content-controls">
-        <button class="lifeat-btn control-btn" @click="onChangeTimer(action)">
+      <div class="content">
+        <span class="content-time"
+          >{{ timer.minutes.value.toString().padStart(2, '0') }}:{{
+            timer.seconds.value.toString().padStart(2, '0')
+          }}</span
+        >
+        <div class="content-controls">
+          <button class="lifeat-btn control-btn" @click="onChangeTimer(action)">
+            {{ action }}
+          </button>
+          <span class="reset-btn" @click="onResetTimer"><IconReload /></span>
+        </div>
+      </div>
+      <div class="settings">
+        <div
+          class="action"
+          v-for="action in timerSettings"
+          :key="action"
+          :class="{ active: timerSettingCurrent === action }"
+          @click="onClickSetting(action)"
+        >
           {{ action }}
-        </button>
-        <span class="reset-btn" @click="onResetTimer"><IconReload /></span>
+        </div>
       </div>
     </template>
   </Draggable>
@@ -36,7 +49,7 @@ import IconMinus from '../components/icons/IconMinus.vue'
 import IconReload from '../components/icons/IconReload.vue'
 import storage from '../utils/storage'
 import { SK_TIMER_WIDGET } from '../utils/constants'
-import { watchEffect, onMounted } from 'vue'
+import { watchEffect, onMounted, ref, reactive } from 'vue'
 import { useTimer } from 'vue-timer-hook'
 
 export default {
@@ -51,15 +64,41 @@ export default {
     Draggable
   },
 
-  setup() {
-    const setTimeDefault = () => {
-      const time = new Date()
-      time.setSeconds(time.getSeconds() + 60) // 1 minute
+  setup(props) {
+    const widget = reactive({
+      top: 139.5,
+      left: 407,
+      wasOpen: props.wasOpen
+    })
 
+    const action = ref('Start')
+    const timerSettings = ['Pomodoro', 'Long Break', 'Short Break']
+    const timerSettingCurrent = ref('Pomodoro')
+
+    const setTimeDefault = (timerSettingCurrent) => {
+      const time = new Date()
+      let minutes
+
+      switch (timerSettingCurrent) {
+        case 'Pomodoro':
+          minutes = 60 * 20 // 20 minutes
+          break
+        case 'Long Break':
+          minutes = 60 * 15 // 15 minutes
+          break
+        case 'Short Break':
+          minutes = 60 * 5 // 5 minutes
+          break
+        default:
+          minutes = 60 * 20
+          break
+      }
+
+      time.setSeconds(time.getSeconds() + minutes)
       return time
     }
 
-    const time = setTimeDefault()
+    const time = setTimeDefault(timerSettingCurrent.value)
     const timer = useTimer(time, false)
 
     const onStart = () => {
@@ -75,7 +114,7 @@ export default {
     }
 
     const onReset = () => {
-      const time = setTimeDefault()
+      const time = setTimeDefault(timerSettingCurrent.value)
 
       timer.restart(time, false)
     }
@@ -94,22 +133,12 @@ export default {
       onStart,
       onPause,
       onResume,
-      onReset
-    }
-  },
-
-  data() {
-    const widget = {
-      top: 139.5,
-      left: 407,
-      wasOpen: this.wasOpen
-    }
-
-    const action = 'Start'
-
-    return {
+      onReset,
+      timerSettings,
+      timerSettingCurrent,
+      action,
       widget,
-      action
+      setTimeDefault
     }
   },
 
@@ -184,6 +213,14 @@ export default {
     onResetTimer() {
       this.onReset()
       this.action = 'Start'
+    },
+
+    onClickSetting(action) {
+      if (this.timerSettingCurrent === action) return
+
+      this.timerSettingCurrent = action
+      const time = this.setTimeDefault(this.timerSettingCurrent)
+      this.timer.restart(time, false)
     }
   }
 }
@@ -219,23 +256,11 @@ export default {
   margin-right: 4px;
 }
 
-.content h3 {
-  line-height: 24px;
-  font-size: 16px;
-  font-weight: bold;
-}
-
-.header-content span,
-.content h3 {
-  text-shadow: 1px 1px 5px rgba(113, 113, 113, 0.5);
-}
-
-.close-btn {
+.content {
   display: flex;
   align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  height: 22px;
+  justify-content: space-between;
+  margin-bottom: 10px;
 }
 
 .content-time {
@@ -263,5 +288,26 @@ export default {
   justify-content: center;
   margin-left: 14px;
   cursor: pointer;
+}
+
+.settings {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.settings .action {
+  font-weight: 500;
+  padding: 6px 0;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+}
+
+.light .settings .action.active {
+  border-bottom: 2px solid var(--color-active);
+}
+
+.dark .settings .action.active {
+  border-bottom: 2px solid var(--light);
 }
 </style>

@@ -129,11 +129,14 @@ export default {
   background-color: var(--dark);
 }
 
-.draggable-header,
-.draggable-content {
+.draggable-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.draggable-header,
+.draggable-content {
   padding: 8px 22px;
 }
 

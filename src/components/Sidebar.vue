@@ -319,11 +319,11 @@ export default {
 }
 
 .toolbar-widget.open {
-  color: #e39685;
+  color: var(--color-active);
 }
 
 .toolbar-widget.open svg {
-  fill: #e39685;
+  fill: var(--color-active);
 }
 
 .sidebar-header {
@@ -403,7 +403,7 @@ export default {
 
 .dark .shuffler-category {
   border: 1px solid #595959;
-  background-color: rgba(50, 50, 50, 0.75);
+  background-color: rgba(35, 41, 49, 0.75);
 }
 
 .light .shuffler-category.active,
@@ -413,7 +413,7 @@ export default {
 
 .dark .shuffler-category.active,
 .dark .shuffler-category:hover {
-  background-color: rgba(67, 67, 67, 0.95);
+  background-color: rgba(69, 70, 72, 0.95);
 }
 
 .shuffler-category img {
@@ -436,7 +436,7 @@ export default {
 }
 
 .dark .space-info-block {
-  background-color: #1e1e1e;
+  background-color: #2d333b;
 }
 
 .space-indicator-content {
